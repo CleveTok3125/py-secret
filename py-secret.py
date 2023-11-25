@@ -1,6 +1,6 @@
 import base64, random
 class secret:
-  def encode(s, k, r=256):
+  def encrypt(s, k, r=256):
     sections = ""
     for i in range(0, r):
       sections += chr(i)
@@ -34,7 +34,7 @@ class secret:
     ans = ''.join(ans)
     ans = base64.b64encode(bytes(ans, 'utf-8')).decode("utf-8")
     return ans
-  def decode(s, k, r=256):
+  def decrypt(s, k, r=256):
     s = base64.b64decode(s).decode("utf-8")
 
     sections = ""
