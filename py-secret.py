@@ -8,12 +8,8 @@ class secret:
     lst = []
     for i in sections:
       lst.append(i)
-
-    seed = 0
-    for i in k:
-      i = ord(i)
-      seed += i**2 + 69*i - i
-    random.seed(seed)
+      
+    random.seed(hash(k))
 
     mixed = []
     while len(lst) > 0:
@@ -44,12 +40,8 @@ class secret:
     lst = []
     for i in sections:
       lst.append(i)
-
-    seed = 0
-    for i in k:
-      i = ord(i)
-      seed += i**2 + 69*i - i
-    random.seed(seed)
+      
+    random.seed(hash(k))
 
     mixed = []
     while len(lst) > 0:
