@@ -9,7 +9,7 @@ class secret:
     for i in sections:
       lst.append(i)
       
-    random.seed(hash(k))
+    random.seed(k)
 
     mixed = []
     while len(lst) > 0:
@@ -41,7 +41,7 @@ class secret:
     for i in sections:
       lst.append(i)
       
-    random.seed(hash(k))
+    random.seed(k)
 
     mixed = []
     while len(lst) > 0:
