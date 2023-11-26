@@ -1,23 +1,6 @@
-import base64, random, os
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.backends import default_backend
-from cryptography.fernet import Fernet
+import base64, random
 class secret:
   def encrypt(s, k, r=256):
-    backend = default_backend()
-    salt = os.urandom(32)
-    kdf = PBKDF2HMAC(
-      algorithm=hashes.SHA256(),
-      length=32,
-      salt=salt,
-      iterations=100000,
-      backend=backend
-    )
-    fernet = Fernet(base64.urlsafe_b64encode(kdf.derive(k.encode())))
-    s = fernet.encrypt(text.encode())
-    s = base64.b64encode(bytes(s, 'utf-8')).decode("utf-8")
-    #
     sections = ""
     for i in range(0, r):
       sections += chr(i)
@@ -48,19 +31,6 @@ class secret:
     ans = base64.b64encode(bytes(ans, 'utf-8')).decode("utf-8")
     return ans
   def decrypt(s, k, r=256):
-    s = base64.b64decode(s).decode("utf-8")
-    backend = default_backend()
-    salt = os.urandom(32)
-    kdf = PBKDF2HMAC(
-      algorithm=hashes.SHA256(),
-      length=32,
-      salt=salt,
-      iterations=100000,
-      backend=backend
-    )
-    fernet = Fernet(base64.urlsafe_b64encode(kdf.derive(k.encode())))
-    s = fernet.decrypt(s).decode()
-    #
     s = base64.b64decode(s).decode("utf-8")
 
     sections = ""
