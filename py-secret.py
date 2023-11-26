@@ -1,10 +1,21 @@
-import base64, random
-import cryptography.hazmat.primitives.ciphers as ciphers
+import base64, random, os
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.backends import default_backend
+from cryptography.fernet import Fernet
 class secret:
   def encrypt(s, k, r=256):
-    cipher = ciphers.Blowfish(k)
-    encryptor = cipher.encryptor()
-    s = encryptor.update(s.encode()) + encryptor.finalize()
+    backend = default_backend()
+    salt = os.urandom(32)
+    kdf = PBKDF2HMAC(
+      algorithm=hashes.SHA256(),
+      length=32,
+      salt=salt,
+      iterations=100000,
+      backend=backend
+    )
+    fernet = Fernet(base64.urlsafe_b64encode(kdf.derive(k.encode())))
+    s = fernet.encrypt(text.encode())
     s = base64.b64encode(bytes(s, 'utf-8')).decode("utf-8")
     #
     sections = ""
@@ -38,9 +49,17 @@ class secret:
     return ans
   def decrypt(s, k, r=256):
     s = base64.b64decode(s).decode("utf-8")
-    cipher = ciphers.Blowfish(k)
-    decryptor = cipher.decryptor()
-    s = decryptor.update(s) + decryptor.finalize().decode()
+    backend = default_backend()
+    salt = os.urandom(32)
+    kdf = PBKDF2HMAC(
+      algorithm=hashes.SHA256(),
+      length=32,
+      salt=salt,
+      iterations=100000,
+      backend=backend
+    )
+    fernet = Fernet(base64.urlsafe_b64encode(kdf.derive(k.encode())))
+    s = fernet.decrypt(s).decode()
     #
     s = base64.b64decode(s).decode("utf-8")
 
