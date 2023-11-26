@@ -63,4 +63,4 @@ class secret:
           ans.append(i)
   
       s = ''.join(ans)
-  return s
+    return s
