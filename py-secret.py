@@ -1,6 +1,12 @@
 import base64, random
+import cryptography.hazmat.primitives.ciphers as ciphers
 class secret:
   def encrypt(s, k, r=256):
+    cipher = ciphers.Blowfish(k)
+    encryptor = cipher.encryptor()
+    s = encryptor.update(s.encode()) + encryptor.finalize()
+    s = base64.b64encode(bytes(s, 'utf-8')).decode("utf-8")
+    #
     sections = ""
     for i in range(0, r):
       sections += chr(i)
@@ -31,6 +37,11 @@ class secret:
     ans = base64.b64encode(bytes(ans, 'utf-8')).decode("utf-8")
     return ans
   def decrypt(s, k, r=256):
+    s = base64.b64decode(s).decode("utf-8")
+    cipher = ciphers.Blowfish(k)
+    decryptor = cipher.decryptor()
+    s = decryptor.update(s) + decryptor.finalize().decode()
+    #
     s = base64.b64decode(s).decode("utf-8")
 
     sections = ""
